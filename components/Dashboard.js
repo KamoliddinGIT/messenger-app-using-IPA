@@ -28,8 +28,7 @@ const Dashboard = ({ navigation, route }) => {
         <Text style={styles.user_text}>searchId: {data.user.searchId}</Text>
       </View>
 
-      <Text style={styles.sticker}>🎉</Text>
-      <Text style={styles.text}>Account Signed in!</Text>
+      <Text style={styles.text}>Add Chat or User👇</Text>
 
       <TouchableOpacity
         style={styles.plus}

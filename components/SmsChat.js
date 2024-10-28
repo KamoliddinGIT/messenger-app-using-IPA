@@ -35,7 +35,7 @@ const SmsChat = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.sms}>Searching a user below!</Text>
+      <Text style={styles.sms}>Searching a user below👇</Text>
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="search user...!"
@@ -60,30 +60,31 @@ const SmsChat = ({ navigation, route }) => {
           </TouchableOpacity>
         </View>
       )}
-      {/* {info && (
-        
-      )} */}
-      {info.map((item) => {
-        return (
-          <View style={styles.card_user_chat} key={item._id}>
-            <Text style={styles.user_text_chat}>
-              user: {item.otherusername}
-            </Text>
-            <TouchableOpacity
-              style={styles.iconContainer_chat}
-              onPress={() => {
-                navigation.navigate("ChatList", {
-                  myUserId,
-                  mySearchId,
-                  other: item,
-                });
-              }}
-            >
-              <Icon name="message" size={24} color="#fff" />
-            </TouchableOpacity>
-          </View>
-        );
-      })}
+
+      <View style={styles.chatHistory}>
+        <Text style={styles.sms}>Chat History!👇</Text>
+        {info.map((item) => {
+          return (
+            <View style={styles.card_user_chat} key={item._id}>
+              <Text style={styles.user_text_chat}>
+                user: {item.otherusername}
+              </Text>
+              <TouchableOpacity
+                style={styles.iconContainer_chat}
+                onPress={() => {
+                  navigation.navigate("ChatList", {
+                    myUserId,
+                    mySearchId,
+                    other: item,
+                  });
+                }}
+              >
+                <Icon name="message" size={24} color="#fff" />
+              </TouchableOpacity>
+            </View>
+          );
+        })}
+      </View>
     </View>
   );
 };
@@ -180,8 +181,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "flex-start",
     padding: 10,
-    marginLeft: "20%",
     borderRadius: 10,
     backgroundColor: "white",
+  },
+  chatHistory: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 10,
+    marginTop: 350,
   },
 });

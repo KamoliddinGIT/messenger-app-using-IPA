@@ -57,11 +57,7 @@ const Chat = ({ navigation, route }) => {
       .then((res) => res.json())
       .then((res) => setChatHistory(res.chatHistory));
   }
-  // fetch(
-  //   `https://telegramclone.up.railway.app/chat/${mySearchId}/${other.otherusername}`
-  // )
-  //   .then((res) => res.json())
-  //   .then((res) => setChatHistory(res.chatHistory));
+
   return (
     <View style={styles.container}>
       <Text style={styles.chat_text}>Chat</Text>

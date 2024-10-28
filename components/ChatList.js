@@ -1,4 +1,5 @@
 import {
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -16,7 +17,6 @@ const ChatList = ({ navigation, route }) => {
   const [chathistory, setChatHistory] = useState([]);
   const [typeMsg, setTypeMsg] = useState("");
   const [refresh, setRefresh] = useState(false);
-  const [refState, setRefState] = useState([]);
   const { request } = useHttp();
 
   const sendMessage = () => {
@@ -50,13 +50,21 @@ const ChatList = ({ navigation, route }) => {
   )
     .then((res) => res.json())
     .then((res) => setChatHistory(res.chatHistory));
-  // useEffect(() => {
-  //   console.log(chathistory);
-  // }, [chathistory]);
+
   return (
     <View style={styles.container}>
       <Text style={styles.chat_text}>Chat History</Text>
       <Text style={styles.user_text}>user {other.otherusername}</Text>
+
+      <ScrollView contentContainerStyle={styles.scrollCont}>
+        {chathistory.map((item, index) => {
+          return (
+            <Text style={styles.chat_txt} key={index}>
+              {item.from}: {item.message}
+            </Text>
+          );
+        })}
+      </ScrollView>
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="message to this user!"
@@ -68,17 +76,6 @@ const ChatList = ({ navigation, route }) => {
         <TouchableOpacity style={styles.iconContainer} onPress={sendMessage}>
           <Icon name="send" size={24} color="#349" />
         </TouchableOpacity>
-      </View>
-      <View>
-        <View>
-          {chathistory.map((item) => {
-            return (
-              <Text style={styles.chat_txt} key={item._id}>
-                {item.from}: {item.message}
-              </Text>
-            );
-          })}
-        </View>
       </View>
     </View>
   );
@@ -136,9 +133,15 @@ const styles = StyleSheet.create({
     fontSize: 20,
     borderWidth: 1,
     borderRadius: 10,
-    width: 150,
+    width: 250,
     padding: 10,
     borderColor: "white",
     marginBottom: 10,
+  },
+  scrollCont: {
+    flexGrow: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "scroll",
   },
 });
