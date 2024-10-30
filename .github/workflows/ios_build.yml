@@ -1,0 +1,55 @@
+name: iOS Build
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: |
+          npm install -g yarn
+          yarn install
+
+      - name: Install Pods
+        run: |
+          cd ios
+          pod install
+
+      - name: Build iOS App
+        env:
+          DEVELOPMENT_TEAM: ${{ secrets.DEVELOPMENT_TEAM }}
+        run: |
+          xcodebuild -workspace ios/YourApp.xcworkspace \
+                      -scheme YourApp \
+                      -sdk iphoneos \
+                      -configuration Release \
+                      archive -archivePath $PWD/build/YourApp.xcarchive
+
+      - name: Export IPA
+        env:
+          DEVELOPMENT_TEAM: ${{ secrets.DEVELOPMENT_TEAM }}
+        run: |
+          xcodebuild -exportArchive \
+                      -archivePath $PWD/build/YourApp.xcarchive \
+                      -exportOptionsPlist ios/exportOptions.plist \
+                      -exportPath $PWD/build
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v2
+        with:
+          name: messenger
+          path: build/messenger.ipa
